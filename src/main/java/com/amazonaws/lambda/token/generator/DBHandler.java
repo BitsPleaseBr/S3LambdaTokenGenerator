@@ -10,9 +10,11 @@ public class DBHandler {
   private static String campoSenha = System.getenv("campoPswdBD");
   private static String campoEmail = System.getenv("campoEmailBD");
   private static String tabelaUserBD = System.getenv("tabelaUserBD");
+  private static String campoTipo = System.getenv("campoTiporBD");
   private String hash = " ";
   private String id;
   private String email;
+  private String tipo;
 
   public String getId() {
     return id;
@@ -31,7 +33,7 @@ public class DBHandler {
 
     // Busca os dados no banco de dados
     String sqlQuery = String.format("SELECT %s FROM %s WHERE %s = '%s'",
-        campoID + ", " + campoSenha, tabelaUserBD, campoEmail, email);
+        campoID + ", " + campoSenha + ", " + campoTipo, tabelaUserBD, campoEmail, email);
     System.out.println("String de query: , " + sqlQuery);
     try {
       PreparedStatement statement = connection.prepareStatement(sqlQuery);
@@ -39,6 +41,7 @@ public class DBHandler {
       if (results.next()) {
         id = results.getString(campoID);
         hash = results.getString(campoSenha);
+        tipo = results.getString(campoTipo);
       } else {
         System.out.println("email não encontrado no BD: " + email);
       }
@@ -46,5 +49,9 @@ public class DBHandler {
       System.out.println("Erro ao accesar banco de dados para autenticar acesso ao API");
       e.printStackTrace();
     }
+  }
+
+  public String getTipo() {
+    return tipo;
   }
 }

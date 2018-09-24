@@ -37,7 +37,7 @@ public class LambdaFunctionHandler implements RequestHandler<Input, Output> {
     String token = BCrypt.hashpw(hash + key, salt);
 
     // Adiciona o id do usuário no token
-    token = handler.getId() + ":" + token;
+    token = handler.getId() + ":" + token + ":" + handler.getTipo();
 
     Output output = new Output();
     if (autorizado) {
